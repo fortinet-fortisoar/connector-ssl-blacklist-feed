@@ -6,13 +6,13 @@
       "name": "Sample - SSL Blacklist Feed - 1.0.0",
       "description": "Sample playbooks for \"SSL Blacklist Feed\" connector. If you are planning to use any of the sample playbooks in your environment, ensure that you clone those playbooks and move them to a different collection, since the sample playbook collection gets deleted during connector upgrade and delete.",
       "visible": true,
-      "image": null,
+      "image": "/api/3/images/33692bd4-41d5-483b-8c4f-4bf031064cb0",
       "uuid": "0cf2ef09-ab50-400b-b7c6-a139f29957ca",
-      "id": 135,
+      "id": 139,
       "createUser": "/api/3/appliances/57545210-2adc-472b-a24f-2df6ee8dfe63",
-      "createDate": 1649847843.217121,
+      "createDate": 1650269856.13923,
       "modifyUser": "/api/3/appliances/57545210-2adc-472b-a24f-2df6ee8dfe63",
-      "modifyDate": 1649847843.217121,
+      "modifyDate": 1650269856.13923,
       "recordTags": [],
       "deletedAt": null,
       "workflows": [
@@ -21,17 +21,17 @@
           "triggerLimit": null,
           "name": "> SSL Blacklist Feed > Fetch and Create",
           "aliasName": null,
-          "tag": "#ssl-blacklist-feed #dataingestion #fetch",
+          "tag": null,
           "description": "Create Indicators from SSL Blacklist Feed",
           "isActive": false,
-          "debug": false,
+          "debug": true,
           "singleRecordExecution": false,
           "remoteExecutableFlag": false,
           "parameters": [
             "lastPullTime"
           ],
           "synchronous": false,
-          "lastModifyDate": 1649848230,
+          "lastModifyDate": 1650274116,
           "collection": "/api/3/workflow_collections/0cf2ef09-ab50-400b-b7c6-a139f29957ca",
           "versions": [],
           "triggerStep": "/api/3/workflow_steps/6423f261-a7af-4fe0-b005-0b39eb15352c",
@@ -48,29 +48,6 @@
               "left": "475",
               "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
               "uuid": "2916c988-03d8-40b2-8db0-605c18809ee2"
-            },
-            {
-              "@type": "WorkflowStep",
-              "name": "Fetch Indicators",
-              "description": null,
-              "arguments": {
-                "name": "SSL Blacklist Feed",
-                "config": "",
-                "params": {
-                  "output_mode": "Return as a JSON"
-                },
-                "version": "1.0.0",
-                "connector": "ssl-blacklist-feed",
-                "operation": "fetch_indicators",
-                "operationTitle": "Fetch Indicators",
-                "pickFromTenant": false,
-                "step_variables": []
-              },
-              "status": null,
-              "top": "570",
-              "left": "475",
-              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671",
-              "uuid": "363ba5aa-7245-4d44-8590-03ad2b10c2ff"
             },
             {
               "@type": "WorkflowStep",
@@ -159,6 +136,29 @@
             },
             {
               "@type": "WorkflowStep",
+              "name": "Fetch Indicators",
+              "description": null,
+              "arguments": {
+                "name": "SSL Blacklist Feed",
+                "config": "",
+                "params": {
+                  "last_pull_time": "{{vars.input.params.lastPullTime}}"
+                },
+                "version": "1.0.0",
+                "connector": "ssl-blacklist-feed",
+                "operation": "fetch_indicators",
+                "operationTitle": "Fetch Indicators",
+                "pickFromTenant": false,
+                "step_variables": []
+              },
+              "status": null,
+              "top": "570",
+              "left": "475",
+              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671",
+              "uuid": "87d1ce9d-864b-4848-86e1-2d76c638d75d"
+            },
+            {
+              "@type": "WorkflowStep",
               "name": "Is data only for mapping",
               "description": null,
               "arguments": {
@@ -172,7 +172,7 @@
                   {
                     "option": "No, For Ingestion",
                     "default": true,
-                    "step_iri": "/api/3/workflow_steps/363ba5aa-7245-4d44-8590-03ad2b10c2ff",
+                    "step_iri": "/api/3/workflow_steps/87d1ce9d-864b-4848-86e1-2d76c638d75d",
                     "step_name": "Fetch Indicators"
                   }
                 ]
@@ -222,6 +222,24 @@
           "routes": [
             {
               "@type": "WorkflowRoute",
+              "name": "Is data only for mapping -> Fetch Indicators",
+              "targetStep": "/api/3/workflow_steps/87d1ce9d-864b-4848-86e1-2d76c638d75d",
+              "sourceStep": "/api/3/workflow_steps/88da40ce-a066-4ea4-bd52-0914435b6b11",
+              "label": "No, For Ingestion",
+              "isExecuted": false,
+              "uuid": "2dc6ec24-2bea-4b9d-913f-6e11b7611850"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "name": "Fetch Indicators -> Create Feed List",
+              "targetStep": "/api/3/workflow_steps/2916c988-03d8-40b2-8db0-605c18809ee2",
+              "sourceStep": "/api/3/workflow_steps/87d1ce9d-864b-4848-86e1-2d76c638d75d",
+              "label": null,
+              "isExecuted": false,
+              "uuid": "645d2d1e-9b10-4b6f-928a-a218f9e6740b"
+            },
+            {
+              "@type": "WorkflowRoute",
               "name": "Is data only for mapping -> Return Sample Data",
               "targetStep": "/api/3/workflow_steps/4cd573e4-c820-450a-821e-b98f23b8cd94",
               "sourceStep": "/api/3/workflow_steps/88da40ce-a066-4ea4-bd52-0914435b6b11",
@@ -231,30 +249,12 @@
             },
             {
               "@type": "WorkflowRoute",
-              "name": "Is data only for mapping -> Fetch Indicators",
-              "targetStep": "/api/3/workflow_steps/363ba5aa-7245-4d44-8590-03ad2b10c2ff",
-              "sourceStep": "/api/3/workflow_steps/88da40ce-a066-4ea4-bd52-0914435b6b11",
-              "label": "No, For Ingestion",
-              "isExecuted": false,
-              "uuid": "7256376f-c367-4fa6-95b7-0a63dbc22ba8"
-            },
-            {
-              "@type": "WorkflowRoute",
               "name": "Create Feed List -> Create Record",
               "targetStep": "/api/3/workflow_steps/6d543b5e-ee37-4677-ab54-4b3c87a3f18f",
               "sourceStep": "/api/3/workflow_steps/2916c988-03d8-40b2-8db0-605c18809ee2",
               "label": null,
               "isExecuted": false,
               "uuid": "1de837a6-0d5e-4e3b-ab70-a0cb90fcbdb8"
-            },
-            {
-              "@type": "WorkflowRoute",
-              "name": "Fetch Indicators -> Create Feed List",
-              "targetStep": "/api/3/workflow_steps/2916c988-03d8-40b2-8db0-605c18809ee2",
-              "sourceStep": "/api/3/workflow_steps/363ba5aa-7245-4d44-8590-03ad2b10c2ff",
-              "label": null,
-              "isExecuted": false,
-              "uuid": "2ef8fbe2-77a2-4509-8b74-95cd40c65ee4"
             },
             {
               "@type": "WorkflowRoute",
@@ -301,11 +301,11 @@
             "fetch",
             "ssl-blacklist-feed"
           ],
-          "id": "1152",
+          "id": "1172",
           "createUser": "/api/3/appliances/57545210-2adc-472b-a24f-2df6ee8dfe63",
-          "createDate": 1649847843.218698,
+          "createDate": 1650269856.140967,
           "modifyUser": "/api/3/people/3451141c-bac6-467c-8d72-85e0fab569ce",
-          "modifyDate": 1649848230.353009,
+          "modifyDate": 1650274115.985494,
           "owners": [],
           "isPrivate": false,
           "deletedAt": null
@@ -315,15 +315,15 @@
           "triggerLimit": null,
           "name": "SSL Blacklist Feed > Ingest",
           "aliasName": null,
-          "tag": "#ssl-blacklist-feed #dataingestion #ingest #create",
+          "tag": null,
           "description": "Fetch Indicators from SSL Blacklist Feed",
           "isActive": false,
-          "debug": false,
+          "debug": true,
           "singleRecordExecution": false,
           "remoteExecutableFlag": false,
           "parameters": [],
           "synchronous": false,
-          "lastModifyDate": 1649848450,
+          "lastModifyDate": 1650274048,
           "collection": "/api/3/workflow_collections/0cf2ef09-ab50-400b-b7c6-a139f29957ca",
           "versions": [],
           "triggerStep": "/api/3/workflow_steps/a6b06035-463d-4ea9-9c4c-f2f28ede941c",
@@ -488,11 +488,11 @@
             "ingest",
             "ssl-blacklist-feed"
           ],
-          "id": "1153",
+          "id": "1173",
           "createUser": "/api/3/appliances/57545210-2adc-472b-a24f-2df6ee8dfe63",
-          "createDate": 1649847843.21995,
+          "createDate": 1650269856.142346,
           "modifyUser": "/api/3/people/3451141c-bac6-467c-8d72-85e0fab569ce",
-          "modifyDate": 1649848450.504881,
+          "modifyDate": 1650274048.48585,
           "owners": [],
           "isPrivate": false,
           "deletedAt": null
@@ -502,7 +502,7 @@
           "triggerLimit": null,
           "name": "Fetch Indicators",
           "aliasName": null,
-          "tag": "#ssl-blacklist-feed",
+          "tag": null,
           "description": "Retrieves a list of all indicators from SSL Blacklist Feed.",
           "isActive": false,
           "debug": true,
@@ -582,11 +582,11 @@
           "recordTags": [
             "ssl-blacklist-feed"
           ],
-          "id": "1154",
+          "id": "1174",
           "createUser": "/api/3/appliances/57545210-2adc-472b-a24f-2df6ee8dfe63",
-          "createDate": 1649847843.220774,
+          "createDate": 1650269856.143305,
           "modifyUser": "/api/3/appliances/57545210-2adc-472b-a24f-2df6ee8dfe63",
-          "modifyDate": 1649847843.220774,
+          "modifyDate": 1650269856.143305,
           "owners": [],
           "isPrivate": false,
           "deletedAt": null
