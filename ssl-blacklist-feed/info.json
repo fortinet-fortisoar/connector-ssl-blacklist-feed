@@ -60,36 +60,24 @@
       "title": "Fetch Indicators",
       "parameters": [
         {
-          "title": "Process response as",
-          "name": "output_mode",
-          "visible": true,
+          "title": "Last Pull Time",
+          "description": "Last time the feeds were pulled",
+          "type": "text",
+          "name": "last_pull_time",
           "required": false,
           "editable": true,
-          "type": "select",
-          "options": [
-            "Create as Feed Records in FortiSOAR",
-            "Return as a JSON"
-          ],
-          "value": "Return as a JSON",
-          "tooltip": "Select the method of returning the Feed Data information. You can choose between the data being created as \"Feed records\" in FortiSOAR (the Create as Feed Records in FortiSOAR option) or data being returned in the JSON format (the Return as a JSON option).",
-          "description": "Select the method of returning the Feed Data information. You can choose between the data being created as \"Feed records\" in FortiSOAR (the Create as Feed Records in FortiSOAR option) or data being returned in the JSON format (the Return as a JSON option).",
-          "onchange": {
-            "Create as Feed Records in FortiSOAR": [
-              {
-                "title": "Record Creation Playbook IRI",
-                "description": "If you choose the 'Create as Feed Records in FortiSOAR' option, then in the Record Creation Playbook IRI field, specify the IRI of the playbook that creates feed records in FortiSOAR.",
-                "type": "text",
-                "name": "create_pb_id",
-                "required": false,
-                "editable": true,
-                "visible": true
-              }
-            ],
-            "Return as a JSON": []
-          }
+          "visible": true,
+          "tooltip": "Time when feeds where pulled",
+          "placeholder": "yyyy-mm-ddThh:mm:ss.SSSZ"
         }
       ],
       "output_schema": [
+        {
+          "ip": "",
+          "destination_port": "",
+          "first_seen": "",
+          "last_updated": ""
+        }
       ],
       "enabled": true
     }

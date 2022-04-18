@@ -7,12 +7,6 @@
 import requests, datetime, time
 from connectors.core.connector import get_logger, ConnectorError
 
-try:
-    from integrations.crudhub import trigger_ingest_playbook
-except:
-    # ignore. lower FSR version
-    pass
-
 logger = get_logger('ssl-blacklist-feed')
 
 errors = {
@@ -68,32 +62,43 @@ def convert_datetime_to_epoch(date_time):
     return epoch
 
 
+def find_indictors(ip_blacklist, last_updated):
+    ip_blacklist_list = []
+    for ip in ip_blacklist[9:-1]:
+        ip_data = ip.split(",")
+        ip_blacklist_list.append({
+            'ip': ip_data[1],
+            'destination_port': ip_data[2],
+            'first_seen': convert_datetime_to_epoch(ip_data[0].replace(" ", "T") + '.000Z'),
+            'last_updated': last_updated
+        })
+    return ip_blacklist_list
+
+
 def fetch_indicators(config, params, **kwargs):
     sf = SSLBlacklistFeed(config)
     endpoint = ""
-    ip_blacklist_list = []
+    last_pull_time = params.get('last_pull_time')
     response = sf.make_rest_call(endpoint, 'GET')
     if response:
         ip_blacklist = str(response).split("\\r\\n")
         extract_last_updated = ip_blacklist[2].split(" ")
         last_updated = convert_datetime_to_epoch(extract_last_updated[3] + 'T' + extract_last_updated[4] + '.000Z')
-        for ip in ip_blacklist[9:-1]:
-            ip_data = ip.split(",")
-            ip_blacklist_list.append({
-                'ip': ip_data[1],
-                'destination_port': ip_data[2],
-                'first_seen': convert_datetime_to_epoch(ip_data[0].replace(" ", "T") + '.000Z'),
-                'last_updated': last_updated
-            })
-        return ip_blacklist_list
+        if last_pull_time:
+            last_pull_time = int(convert_datetime_to_epoch(last_pull_time))
+            if int(last_pull_time) > last_pull_time:
+                ips_list = find_indictors(ip_blacklist, last_updated)
+                return ips_list
+            else:
+                return []
+        else:
+            ips_list = find_indictors(ip_blacklist, last_updated)
+            return ips_list
 
 
 def _check_health(config):
-    try:
-        sf = SSLBlacklistFeed(config)
-        return True
-    except Exception as err:
-        raise ConnectorError('Invalid URL or Credentials')
+    sf = SSLBlacklistFeed(config)
+    return True
 
 
 operations = {
