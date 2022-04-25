@@ -86,7 +86,7 @@ def fetch_indicators(config, params, **kwargs):
         last_updated = convert_datetime_to_epoch(extract_last_updated[3] + 'T' + extract_last_updated[4] + '.000Z')
         if last_pull_time:
             last_pull_time = int(convert_datetime_to_epoch(last_pull_time))
-            if int(last_pull_time) > last_pull_time:
+            if int(last_updated) > last_pull_time:
                 ips_list = find_indictors(ip_blacklist, last_updated)
                 return ips_list
             else:
