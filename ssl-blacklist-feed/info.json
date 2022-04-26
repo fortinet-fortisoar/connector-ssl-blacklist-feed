@@ -1,0 +1,85 @@
+{
+  "name": "ssl-blacklist-feed",
+  "version": "1.0.0",
+  "label": "SSL Blacklist Feed",
+  "category": "Threat Intelligence",
+  "description": "SSL Blacklist Feed publishes a blacklist containing IPs which can be used to detect botnet C2 traffic from infected machines towards the internet, leaving your network.This connector facilitates automated operations related to fetching the list of IPs blacklist.<br/><br/>This connector has a dependency on the <a href=\"/content-hub/all-content/?contentType=solutionpack&amp;tag=ThreatIntelManagement\" target=\"_blank\" rel=\"noopener\">Threat Intel Management Solution Pack</a>. Install the Solution Pack before enabling ingestion of Threat Feeds from this source.",
+  "publisher": "Fortinet",
+  "cs_approved": true,
+  "cs_compatible": true,
+  "help_online": "",
+  "icon_small_name": "small.png",
+  "icon_large_name": "large.png",
+  "tags": [
+    "ThreatIntel"
+  ],
+  "ingestion_supported": true,
+  "ingestion_modes": [
+    "scheduled"
+  ],
+  "ingestion_preferences": {
+    "modules": [
+      "threat_intel_feeds",
+      "indicators"
+    ]
+  },
+  "configuration": {
+    "fields": [
+      {
+        "title": "Service",
+        "name": "service",
+        "description": "Review and select the URL of the SSL Blacklist Feed service to which you will connect and retrieve data. You can choose between https://sslbl.abuse.ch/blacklist/sslipblacklist.csv or https://sslbl.abuse.ch/blacklist/sslipblacklist_aggressive.csv.",
+        "type": "select",
+        "visible": true,
+        "editable": true,
+        "required": true,
+        "value": "abuse.ch SSLBL Botnet C2 IP Blacklist (CSV)",
+        "options": [
+          "abuse.ch SSLBL Botnet C2 IP Blacklist (CSV)",
+          "abuse.ch SSLBL Botnet C2 IP Blacklist (CSV) - Aggressive"
+        ]
+      },
+      {
+        "title": "Verify SSL",
+        "name": "verify_ssl",
+        "description": "Specifies whether the SSL certificate for the server is to be verified or not.",
+        "type": "checkbox",
+        "required": false,
+        "editable": true,
+        "visible": true,
+        "value": true
+      }
+    ]
+  },
+  "operations": [
+    {
+      "operation": "fetch_indicators",
+      "category": "investigation",
+      "annotation": "fetch_indicators",
+      "description": "Retrieves a list of all indicators from SSL Blacklist Feed.",
+      "title": "Fetch Indicators",
+      "parameters": [
+        {
+          "title": "Last Pull Time",
+          "description": "Last time the feeds were pulled",
+          "type": "text",
+          "name": "last_pull_time",
+          "required": false,
+          "editable": true,
+          "visible": true,
+          "tooltip": "Time when feeds where pulled",
+          "placeholder": "yyyy-mm-ddThh:mm:ss.SSSZ"
+        }
+      ],
+      "output_schema": [
+        {
+          "ip": "",
+          "destination_port": "",
+          "first_seen": "",
+          "last_updated": ""
+        }
+      ],
+      "enabled": true
+    }
+  ]
+}
