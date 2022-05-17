@@ -110,8 +110,6 @@
                   "tLP": "{% if vars.tlp %}{{ vars.tlp | resolveRange(vars.tlp_map)}}{% endif %}",
                   "value": "{{vars.item.ip}}",
                   "source": "SSL Blacklist Feed",
-                  "lastSeen": "{{vars.item.first_seen}}",
-                  "modified": "{{vars.item.last_updated}}",
                   "sourceId": "{{vars.item.ip}}",
                   "__replace": "true",
                   "confidence": "{{vars.confidence}}",

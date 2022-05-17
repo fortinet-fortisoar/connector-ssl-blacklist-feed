@@ -7,7 +7,7 @@
   "publisher": "Fortinet",
   "cs_approved": true,
   "cs_compatible": true,
-  "help_online": "",
+  "help_online": "https://docs.fortinet.com/document/fortisoar/1.0.0/ssl-blacklist-feed/275/ssl-blacklist-feed-v1-0-0",
   "icon_small_name": "small.png",
   "icon_large_name": "large.png",
   "tags": [
@@ -28,7 +28,7 @@
       {
         "title": "Service",
         "name": "service",
-        "description": "Review and select the URL of the SSL Blacklist Feed service to which you will connect and retrieve data. You can choose between https://sslbl.abuse.ch/blacklist/sslipblacklist.csv or https://sslbl.abuse.ch/blacklist/sslipblacklist_aggressive.csv.",
+        "description": "Review and select the URL of the SSL Certificate Blacklist service to which you will connect and retrieve data. You can choose between https://sslbl.abuse.ch/blacklist/sslipblacklist.csv or https://sslbl.abuse.ch/blacklist/sslipblacklist_aggressive.csv.",
         "type": "select",
         "visible": true,
         "editable": true,
@@ -37,7 +37,8 @@
         "options": [
           "abuse.ch SSLBL Botnet C2 IP Blacklist (CSV)",
           "abuse.ch SSLBL Botnet C2 IP Blacklist (CSV) - Aggressive"
-        ]
+        ],
+        "tooltip": "Review and select the URL of the SSL Certificate Blacklist service to which you will connect and retrieve data. You can choose between https://sslbl.abuse.ch/blacklist/sslipblacklist.csv or https://sslbl.abuse.ch/blacklist/sslipblacklist_aggressive.csv."
       },
       {
         "title": "Verify SSL",
@@ -56,18 +57,18 @@
       "operation": "fetch_indicators",
       "category": "investigation",
       "annotation": "fetch_indicators",
-      "description": "Retrieves a list of all indicators from SSL Blacklist Feed.",
+      "description": "Retrieves a list of all indicators from the SSL Certificate Blacklist. You can also filter the indicators retrieved from SSL Certificate Blacklist based on the last pull time you have specified.",
       "title": "Fetch Indicators",
       "parameters": [
         {
           "title": "Last Pull Time",
-          "description": "Last time the feeds were pulled",
+          "description": "(Optional) Specify the time the feeds were last pulled from SSL Certificate Blacklist. In this case, the data will be returned from the SSL Certificate Blacklist only if the feed has been refreshed after the specified time.",
           "type": "text",
           "name": "last_pull_time",
           "required": false,
           "editable": true,
           "visible": true,
-          "tooltip": "Time when feeds where pulled",
+          "tooltip": "(Optional) Specify the time the feeds were last pulled from SSL Certificate Blacklist. In this case, the data will be returned from the SSL Certificate Blacklist only if the feed has been refreshed after the specified time.",
           "placeholder": "yyyy-mm-ddThh:mm:ss.SSSZ"
         }
       ],
