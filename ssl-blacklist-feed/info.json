@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "label": "SSL Blacklist Feed",
   "category": "Threat Intelligence",
-  "description": "SSL Blacklist Feed publishes a blacklist containing IPs which can be used to detect botnet C2 traffic from infected machines towards the internet, leaving your network.This connector facilitates automated operations related to fetching the list of IPs blacklist.<br/><br/>This connector has a dependency on the <a href=\"/content-hub/all-content/?contentType=solutionpack&amp;tag=ThreatIntelManagement\" target=\"_blank\" rel=\"noopener\">Threat Intel Management Solution Pack</a>. Install the Solution Pack before enabling ingestion of Threat Feeds from this source.",
+  "description": "The SSL Blacklist (SSLBL) is a project of abuse.ch with the goal of detecting malicious SSL connections, by identifying and blacklisting SSL certificates used by botnet C&C servers. In addition, SSLBL identifies JA3 fingerprints that helps you to detect & block malware botnet C&C communication on the TCP layer. This connector facilitates automated operations related to fetching the list of IPs blacklist.<br/><br/>This connector has a dependency on the <a href=\"/content-hub/all-content/?contentType=solutionpack&amp;tag=ThreatIntelManagement\" target=\"_blank\" rel=\"noopener\">Threat Intel Management Solution Pack</a>. Install the Solution Pack before enabling ingestion of Threat Feeds from this source.",
   "publisher": "Fortinet",
   "cs_approved": true,
   "cs_compatible": true,
@@ -70,16 +70,46 @@
           "visible": true,
           "tooltip": "(Optional) Specify the time the feeds were last pulled from SSL Certificate Blacklist. In this case, the data will be returned from the SSL Certificate Blacklist only if the feed has been refreshed after the specified time.",
           "placeholder": "yyyy-mm-ddThh:mm:ss.SSSZ"
-        }
-      ],
-      "output_schema": [
+        },
         {
-          "ip": "",
-          "destination_port": "",
-          "first_seen": "",
-          "last_updated": ""
+          "title": "Process Response As",
+          "name": "output_mode",
+          "visible": true,
+          "required": false,
+          "editable": true,
+          "type": "select",
+          "options": [
+            "Create as Feed Records in FortiSOAR",
+            "Return as a JSON"
+          ],
+          "value": "Return as a JSON",
+          "tooltip": "Select the method of returning the Feed Data information. You can choose between the data being created as \"Feed records\" in FortiSOAR (the Create as Feed Records in FortiSOAR option) or data being returned in the JSON format (the Return as a JSON option).",
+          "description": "Select the method of returning the Feed Data information. You can choose between the data being created as \"Feed records\" in FortiSOAR (the Create as Feed Records in FortiSOAR option) or data being returned in the JSON format (the Return as a JSON option). \nIf you choose the 'Create as Feed Records in FortiSOAR' option, then in the Record Creation Playbook IRI field, specify the IRI of the playbook that creates feed records in FortiSOAR.",
+          "onchange": {
+            "Create as Feed Records in FortiSOAR": [
+              {
+                "title": "Record Creation Playbook IRI",
+                "description": "Specify the IRI of the playbook that creates feed records in FortiSOAR.",
+                "type": "text",
+                "name": "create_pb_id",
+                "required": true,
+                "editable": true,
+                "visible": true
+              }
+            ]
+          }
         }
       ],
+      "output_schema": {
+        "last_updated": "",
+        "feed": [
+          {
+            "ip": "",
+            "destination_port": "",
+            "first_seen": ""
+          }
+        ]
+      },
       "enabled": true
     }
   ]

@@ -15,7 +15,7 @@ class SSLBlacklistFeed(Connector):
         try:
             action = operations.get(operation)
             logger.info('Executing action {}'.format)
-            return action(config, params)
+            return action(config, params,  **kwargs)
         except Exception as err:
             logger.exception(str(err))
             raise ConnectorError(str(err))
